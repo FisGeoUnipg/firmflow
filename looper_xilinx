@@ -1,0 +1,37 @@
+#!/bin/bash
+
+BASEPATH="/home/ubuntu/test"
+
+while true
+do
+
+	FIRST=`ls -t $BASEPATH/*.bit | tail -n 1`
+
+	if [ "a$FIRST" != "a" ]
+	then
+		BASE=`basename $FIRST`
+		echo "$BASE (inizializzazione)" > $BASEPATH/Metadata
+		echo "Processing $BASE" 
+
+	
+		mv $FIRST currentfirmware.bit
+
+		./program_xilinx.sh program.tcl
+
+		rm -f vivado*
+
+		upperlimit=10
+
+		for ((i=upperlimit; i>=0; i--)); do
+			echo "$BASE (""$i""s)" > $BASEPATH/Metadata
+			sleep 1
+		done
+
+	else
+		echo "Waiting"
+		echo "$BASE (in attesa nuovo)" > $BASEPATH/Metadata
+		sleep 1
+	fi
+
+done
+
