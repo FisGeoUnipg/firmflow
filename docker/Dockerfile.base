@@ -1,0 +1,21 @@
+# Start from the latest Ubuntu image
+FROM ubuntu:latest
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    nano \
+    make \
+    cmake \
+    libjpeg8-dev \
+    git \
+    libtinfo-dev \
+    nginx \
+    golang-go
+
+# Start from the base imagbaseimage
+
+RUN git clone https://github.com/jacksonliam/mjpg-streamer.git
+RUN cd mjpg-streamer/mjpg-streamer-experimental && make && make install
+RUN ln -s /lib/x86_64-linux-gnu/libtinfo.so.6 /lib/x86_64-linux-gnu/libtinfo.so.5

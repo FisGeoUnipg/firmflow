@@ -20,7 +20,7 @@ type firmwarelist struct {
 func (f *firmwarelist) show(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		w.Header().Set("Content-Type", "text/html")
-		w.Header().Set("Refresh", "1; http://141.250.2.203:9090/status")
+		w.Header().Set("Refresh", "1; http://__IP__:9090/status")
 		fmt.Fprint(w, "Firmware in esecuzione: "+f.curr+"<br>")
 		fmt.Fprint(w, "Coda:<br>")
 		for _, ot := range f.queue {
@@ -33,8 +33,8 @@ func (f *firmwarelist) show(w http.ResponseWriter, r *http.Request) {
 func (f *firmwarelist) console(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		w.Header().Set("Content-Type", "text/html")
-		w.Header().Set("Refresh", "1; http://141.250.2.203:9090/console#fine")
-		if dat, err := ioutil.ReadFile("/home/ubuntu/test/Console"); err == nil {
+		w.Header().Set("Refresh", "1; http://__IP__:9090/console#fine")
+		if dat, err := ioutil.ReadFile("/app/bitstreams/Console"); err == nil {
 			lines:=strings.Split(string(dat),"\n")
 			for i:=len(lines)-1;i>0;i-- {
 				if lines[i]!= "" {
@@ -51,7 +51,7 @@ func (f *firmwarelist) update() {
 		f.curr = ""
 		f.queue = make([]string, 0)
 
-		root := "/home/ubuntu/test"
+		root := "/app/bitstreams/"
 		filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 			if filepath.Ext(path) == ".bit" {
 				f.queue = append(f.queue, filepath.Base(path))
@@ -59,7 +59,7 @@ func (f *firmwarelist) update() {
 			return nil
 		})
 
-		if dat, err := ioutil.ReadFile("/home/ubuntu/test/Metadata"); err == nil {
+		if dat, err := ioutil.ReadFile(root+"Metadata"); err == nil {
 			f.curr = string(dat)
 		}
 
@@ -82,9 +82,9 @@ func upload(w http.ResponseWriter, r *http.Request) {
 		}
 		defer file.Close()
 		w.Header().Set("Content-Type", "text/html")
-		w.Header().Set("Refresh", "0; http://141.250.2.203")
+		w.Header().Set("Refresh", "0; http://__IP__")
 		fmt.Fprint(w, "Upload done! auto-reload in 5 seconds")
-		filename := strings.ReplaceAll("/home/ubuntu/test/"+studente+"_"+esercizio+"_"+handler.Filename, " ", "")
+		filename := strings.ReplaceAll("/app/bitstreams/"+studente+"_"+esercizio+"_"+handler.Filename, " ", "")
 		f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0666)
 		if err != nil {
 			fmt.Println(err)

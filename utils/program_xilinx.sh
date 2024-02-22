@@ -12,4 +12,3 @@ else
         source /tools/Xilinx/Vivado/$REL/settings64.sh
         /tools/Xilinx/Vivado/$REL/bin/vivado -mode tcl -source "$1" 
 fi
-

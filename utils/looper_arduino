@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASEPATH="/home/ubuntu/test"
+BASEPATH="/app/bitstreams/"
 
 while true
 do
@@ -16,7 +16,7 @@ do
 	
 		mv $FIRST currentfirmware.hex 
 
-		./program_arduino.sh currentfirmware.hex
+		./utils/program_arduino.sh /app/utils/currentfirmware.hex
 
 		rm -f vivado*
 

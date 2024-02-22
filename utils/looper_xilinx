@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASEPATH="/home/ubuntu/test"
+BASEPATH="/app/bitstreams"
 
 while true
 do
@@ -16,7 +16,7 @@ do
 	
 		mv $FIRST currentfirmware.bit
 
-		./program_xilinx.sh program.tcl
+		./utils/program_xilinx.sh /app/utils/program.tcl
 
 		rm -f vivado*
 
