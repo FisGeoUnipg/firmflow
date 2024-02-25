@@ -1,1 +1,1 @@
-docker build --build-arg WEBSERVER_IP=141.250.2.251 -t firmflow:latest -f docker/Dockerfile .
+docker build --build-arg WEBSERVER_IP=141.250.2.251 --build-arg BOARDS=2 -t firmflow:latest -f docker/Dockerfile .

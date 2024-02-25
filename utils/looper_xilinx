@@ -1,35 +1,53 @@
 #!/bin/bash
 
 BASEPATH="/app/bitstreams"
+BOARDNUMBER="1"
+FULLPATH="$BASEPATH/$BOARDNUMBER"
 
 while true
 do
 
-	FIRST=`ls -t $BASEPATH/*.bit | tail -n 1`
+	# # if full path does not exist, create it
+	# if [ ! -d "$FULLPATH" ]; then
+	# 	mkdir -p $FULLPATH
+	# fi
+
+	# # if there is not bit file inside the full path, continue
+	# if [ ! -f $FULLPATH/*.bit ]; then
+	# 	#echo "Waiting"
+	# 	#echo "No bit file found" > $FULLPATH/Metadata
+	# 	sleep 1
+	# 	continue
+	# fi
+
+	FIRST=`ls -t $FULLPATH/*.bit | tail -n 1`
 
 	if [ "a$FIRST" != "a" ]
 	then
 		BASE=`basename $FIRST`
-		echo "$BASE (inizializzazione)" > $BASEPATH/Metadata
-		echo "Processing $BASE" 
+		#echo "$BASE (inizializzazione)" > $FULLPATH/Metadata
+		#echo "Processing $BASE" 
 
-	
-		mv $FIRST currentfirmware.bit
+		mv $FULLPATH/*.bit $FULLPATH/currentfirmware.bit
 
-		./utils/program_xilinx.sh /app/utils/program.tcl
+		./utils/program_xilinx.sh /app/utils/program_$BOARDNUMBER.tcl
 
 		rm -f vivado*
 
 		upperlimit=10
 
 		for ((i=upperlimit; i>=0; i--)); do
-			echo "$BASE (""$i""s)" > $BASEPATH/Metadata
+			echo "$FIRMWARE_NAME (""$i""s)" > $FULLPATH/Metadata
 			sleep 1
 		done
 
+		# delete the bit file
+		rm -f $FULLPATH/currentfirmware.bit
+		rm -f $FULLPATH/*.bit
+
 	else
 		echo "Waiting"
-		echo "$BASE (in attesa nuovo)" > $BASEPATH/Metadata
+		echo "$BASE (in attesa nuovo)" > $FULLPATH/Metadata
 		sleep 1
 	fi
 

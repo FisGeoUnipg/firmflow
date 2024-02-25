@@ -1,1 +1,1 @@
-docker run --privileged -p 9090:9090 -p 8080:8080 -p 80:80 -v /tools/Xilinx:/tools/Xilinx firmflow:latest
+docker run --privileged --name firmflow -p 9090:9090 -p 8080:8080 -p 80:80 -v /tools/Xilinx:/tools/Xilinx firmflow:latest
