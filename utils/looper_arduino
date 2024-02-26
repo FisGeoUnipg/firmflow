@@ -1,11 +1,11 @@
 #!/bin/bash
 
-BASEPATH="/home/ubuntu/test"
+BASEPATH="/app/bitstreams/"
 
 while true
 do
 
-	FIRST=`ls -t $BASEPATH/*.bit | tail -n 1`
+	FIRST=`ls -t $BASEPATH/*.hex | tail -n 1`
 
 	if [ "a$FIRST" != "a" ]
 	then
@@ -14,9 +14,9 @@ do
 		echo "Processing $BASE" 
 
 	
-		mv $FIRST currentfirmware.bit
+		mv $FIRST currentfirmware.hex 
 
-		./program_xilinx.sh program.tcl
+		./utils/program_arduino.sh /app/utils/currentfirmware.hex
 
 		rm -f vivado*
 
