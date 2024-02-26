@@ -27,12 +27,12 @@ Before continue, the service runs a webserver and as it needs some ports to be o
 
 Clone this repository inside the host machine:
 ```bash
-git clone https://github.com/Bianco95/firmflow
+git clone https://github.com/FisGeoUnipg/firmflow/
 cd firmflow
 ```
-Change inside the script *export-vars.sh* the number of FPGA boards you have attacched to the host machine and the public IP (or private IP) address where the service will be available. For example, if you have 2 FPGA boards and the public IP address is 141.250.2.251, the script will be:
+Change inside the script *export-vars.sh* the number of FPGA boards you have attacched to the host machine and the public IP (or private IP) address where the service will be available. For example, if you have 2 FPGA boards, the script will be:
 ```bash
-export WEBSERVER_IP=141.250.2.251
+export WEBSERVER_IP=IP_ADDRESS
 export BOARDS=2
 ```
 The, run this script to export the environment variables:
@@ -52,6 +52,8 @@ Finally, run the service
 ./run-container.sh
 ```
 
+If you make a change to the frontend
+
 The container will start and the service will be available at the IP address of the host machine. The user can access the service through the web browser at the address http://<host_ip>:8080.
 
 Under the hood, the Dockerfile has built all the necessary dependencies to run the service. The service is built on top of the following technologies:
@@ -59,6 +61,4 @@ Under the hood, the Dockerfile has built all the necessary dependencies to run t
 - **mjpg-streamer**: to stream the USB camera (https://github.com/jacksonliam/mjpg-streamer.git)
 - **nginx**: to run the webserver frontend to handle the upload of the firmware and the live streaming of the FPGA output
 - **GO net/http**: to serve the endpoint on port 9090 to handle the upload of the firmware, the live streaming of the upload of the firmware and the UART output of the FPGA.
-
-
 
