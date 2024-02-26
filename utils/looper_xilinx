@@ -28,22 +28,21 @@ do
 		#echo "$BASE (inizializzazione)" > $FULLPATH/Metadata
 		#echo "Processing $BASE" 
 
-		mv $FULLPATH/*.bit $FULLPATH/currentfirmware.bit
+		# mv $FULLPATH/*.bit $FULLPATH/currentfirmware.bit
 
-		./utils/program_xilinx.sh /app/utils/program_$BOARDNUMBER.tcl
+		./utils/program_xilinx.sh /app/utils/program_$BOARDNUMBER.tcl $BOARDNUMBER $BASE
 
 		rm -f vivado*
 
 		upperlimit=10
 
 		for ((i=upperlimit; i>=0; i--)); do
-			echo "$FIRMWARE_NAME (""$i""s)" > $FULLPATH/Metadata
+			echo "$BASE (""$i""s)" > $FULLPATH/Metadata
 			sleep 1
 		done
 
 		# delete the bit file
-		rm -f $FULLPATH/currentfirmware.bit
-		rm -f $FULLPATH/*.bit
+		rm -f $FULLPATH/$BASE
 
 	else
 		echo "Waiting"

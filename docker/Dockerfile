@@ -19,7 +19,7 @@ RUN go build -o firmflow backend/firmflow.go
 COPY ./frontend/ /var/www/html/
 
 RUN for i in $(seq 1 $BOARDS); do \
-    sed -i "/<div class=\"centerdiv\">/a <div class=\"row\"><h4>Choose the development board assigned to you by the teacher</h4><a href=\"page$i.html\" class=\"button\">Basys3 n.$i</a></div>" /var/www/html/index.html; \
+    sed -i "/<div class=\"centerdiv\">/a<div class=\"row\"><a href=\"page$i.html\" class=\"button\">Basys3 n.$i</a></div>" /var/www/html/index.html; \
 done
 
 RUN for i in $(seq 1 $BOARDS); do \
@@ -38,7 +38,7 @@ done
 RUN for i in $(seq 1 $BOARDS); do \
     cp /app/utils/program.tcl /app/utils/program_$i.tcl && \
     j=$((i-1)) && \
-    sed -i "s/\[get_hw_devices\] 0/\[get_hw_devices\] $j/g" /app/utils/program_$i.tcl; \
+    sed -i "s/open_hw_target \[lindex \[get_hw_targets\] 0\]/open_hw_target \[lindex \[get_hw_targets\] $j\]/g" /app/utils/program_$i.tcl; \
     sed -i "s/__BOARDNUMBER__/$i/g" /app/utils/program_$i.tcl; \
 done
 

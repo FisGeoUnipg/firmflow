@@ -1,1 +1,4 @@
-docker build --build-arg WEBSERVER_IP=141.250.2.251 --build-arg BOARDS=2 -t firmflow:latest -f docker/Dockerfile .
+#!/bin/bash
+
+source export-vars.sh
+docker build --build-arg WEBSERVER_IP=${WEBSERVER_IP} --build-arg BOARDS=${BOARDS} -t firmflow:latest -f docker/Dockerfile .

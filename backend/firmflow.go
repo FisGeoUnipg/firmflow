@@ -56,13 +56,11 @@ func (f *firmwarelist) console(w http.ResponseWriter, r *http.Request) {
 		// get the board number from the r http request
 		board := r.URL.Query().Get("board")
 		w.Header().Set("Content-Type", "text/html")
-		w.Header().Set("Refresh", "1; http://__IP__:9090/console#fine")
+		w.Header().Set("Refresh", "1; http://__IP__:9090/console?board="+board)
 		if dat, err := ioutil.ReadFile("/app/bitstreams/"+board+"/Console"); err == nil {
 			lines:=strings.Split(string(dat),"\n")
-			for i:=len(lines)-1;i>0;i-- {
-				if lines[i]!= "" {
-					fmt.Fprint(w, lines[i], "<br />")
-				}
+			for i := len(lines)-1; i >= 0; i-- {
+				fmt.Fprintln(w, lines[i]+"<br>")
 			}
 		}
 	}
