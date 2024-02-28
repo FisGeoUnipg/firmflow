@@ -30,9 +30,13 @@ Clone this repository inside the host machine:
 git clone https://github.com/FisGeoUnipg/firmflow/
 cd firmflow
 ```
-Change inside the script *export-vars.sh* the number of FPGA boards you have attacched to the host machine and the public IP (or private IP) address where the service will be available. For example, if you have 2 FPGA boards, the script will be:
+Change inside the script *export-vars.sh* the number of FPGA boards you have attacched to the host machine and the public IP (or private IP) address where the service will be available. You need also to specify the path of the Vivado installation as well as the name of the Vivado executable.
+Most of the time, Vivado is installed under */tools/Xilinx* directory. The vivado executable is *vivado* for the full version and *vivado_lab* for the lab version.
+For example, if you have 2 FPGA boards and you are using Vivado Lab edition and IP address 192.168.0.10 the script will be:
 ```bash
-export WEBSERVER_IP=IP_ADDRESS
+export VIVADO_PATH=/tools/Xilinx/Vivado_Lab
+export VIVADO_EXECUTABLE=vivado_lab
+export WEBSERVER_IP=192.168.0.10
 export BOARDS=2
 ```
 The, run this script to export the environment variables:

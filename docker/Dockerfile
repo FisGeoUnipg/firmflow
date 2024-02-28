@@ -1,11 +1,20 @@
 # Start from the base image
 FROM baseimage
 
+RUN locale-gen "en_US.UTF-8"
+RUN update-locale LANG=en_US.UTF-8
+
 ARG WEBSERVER_IP
 ENV WEBSERVER_IP=$WEBSERVER_IP
 
 ARG BOARDS
 ENV BOARDS=$BOARDS
+
+ARG VIVADO_PATH
+ENV VIVADO_PATH=$VIVADO_PATH
+
+ARG VIVADO_EXECUTABLE
+ENV VIVADO_EXECUTABLE=$VIVADO_EXECUTABLE
 
 WORKDIR /app
 
@@ -41,6 +50,9 @@ RUN for i in $(seq 1 $BOARDS); do \
     sed -i "s/open_hw_target \[lindex \[get_hw_targets\] 0\]/open_hw_target \[lindex \[get_hw_targets\] $j\]/g" /app/utils/program_$i.tcl; \
     sed -i "s/__BOARDNUMBER__/$i/g" /app/utils/program_$i.tcl; \
 done
+
+RUN sed -i "s|__VIVADO_PATH__|$VIVADO_PATH|g" /app/utils/program_xilinx.sh
+RUN sed -i "s|__VIVADO_EXECUTABLE__|$VIVADO_EXECUTABLE|g" /app/utils/program_xilinx.sh
 
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 

@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
     git \
     libtinfo-dev \
     nginx \
-    golang-go
+    golang-go \
+    locales
 
 # Start from the base imagbaseimage
 
